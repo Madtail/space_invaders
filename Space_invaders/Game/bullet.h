@@ -16,7 +16,7 @@ public:
 
 	static const int BULLET_WIDTH = 16;
 	static const int BULLET_HEIGHT = 16;
-	static const int BULLET_VEL = 10;
+	static const int BULLET_VEL = 12;
 	
 
 

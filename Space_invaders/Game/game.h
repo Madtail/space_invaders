@@ -21,7 +21,7 @@ public:
 		return _running;
 	}
 
-	void handleEvents(int randomNumber,int randomAlien);
+	void handleEvents(int randomNumber, int randomAlien1, int randomAlien2, int randomAlien3, int randomAlien4, int randomAlien5, int randomAlien6, int randomAlien7, int randomAlien8);
 	void update();
 	void render();
 	void clean();

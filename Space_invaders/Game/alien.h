@@ -8,7 +8,7 @@ class Alien
 
 public:
 
-	static const int ALIEN_VEL = 1.9;
+	static const int ALIEN_VEL = 1;
 
 	Alien();
 	~Alien();

@@ -12,7 +12,12 @@ Player::Player()
 
 	playerCollider.w = globals::PLAYER_WIDTH;
 	playerCollider.h = globals::PLAYER_HEIGHT;
+
+	isDestroyed = false;
 }
+
+Player::~Player() 
+{}
 
 int Player::getXPos()
 {

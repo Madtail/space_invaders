@@ -9,6 +9,7 @@ class Player
 public:
 	
 	Player();
+	~Player();
 
 	void move();
 
@@ -26,15 +27,17 @@ public:
 
 	Mouse mouse;
 
+	// Player collision box
+	SDL_Rect playerCollider;
 
+	bool isDestroyed;
 
 private:
 	// Position and velocity
 	int xpos, ypos;
 	int velX, velY;
 
-	// Player collision box
-	SDL_Rect playerCollider;
+
 
 };
 
