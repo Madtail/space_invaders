@@ -11,7 +11,8 @@ Alien::Alien()
 	alienCollisionBox.w = 16;
 	alienCollisionBox.h = 16;
 
-	alienShootTime = 3000;
+	alienMoveTimeX = -2000;
+	alienMoveTimeY = -6000;
 
 	isDestroyed = false;
 }

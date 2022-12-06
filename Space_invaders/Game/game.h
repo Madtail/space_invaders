@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <ctime>
 #include <iostream>
+#include <SDL_ttf.h>
 
 class Game
 {
@@ -27,6 +28,14 @@ public:
 	void clean();
 
 	void initializeAliens();
+
+	TTF_Font* font;
+	SDL_Color white;
+	SDL_Surface* surfaceMessage;
+	SDL_Texture* Message;
+	
+	SDL_Rect messageRect;
+
 
 	// Check collision between two objects
 	bool checkCollison(SDL_Rect a, SDL_Rect b);

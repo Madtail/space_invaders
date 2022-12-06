@@ -25,7 +25,8 @@ public:
 
 	bool isDestroyed;
 
-	Uint32 alienShootTime;
+	Uint32 alienMoveTimeX;
+	Uint32 alienMoveTimeY;
 
 private:
 

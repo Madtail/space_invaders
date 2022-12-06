@@ -28,11 +28,14 @@ Uint32 tempAlienTime = -1000;
 
 Uint32 bulletStartTime = -1000;
 
+
+
 SDL_Event Game::event;
 
 
 Graphics graphics;
 Player player;
+
 
 Game::Game()
 {
@@ -42,12 +45,22 @@ Game::Game()
 	{
 		std::cout << "Subsystems Initialized...\n";
 	}
+
+	messageRect.x = 400;
+	messageRect.y = 300;
+	messageRect.w = 400;
+	messageRect.h = 400;
+	font = TTF_OpenFont("verdana.ttf", 24);
+
+	surfaceMessage = TTF_RenderText_Solid(font, "GAME OVER", white);
+	white = { 255,255,255 };
+	Message = SDL_CreateTextureFromSurface(graphics.getRenderer(), surfaceMessage);
 }
 
-SDL_Texture* playerTexture = graphics.loadMedia("C:/work/prog_projects/c++/space_invaders/Space_invaders/media/player.png");
-SDL_Texture* bulletTexture = graphics.loadMedia("C:/work/prog_projects/c++/space_invaders/Space_invaders/media/bullet2.png");
-SDL_Texture* alienTexture1 = graphics.loadMedia("C:/work/prog_projects/c++/space_invaders/Space_invaders/media/alien1.png");
-SDL_Texture* alienTexture2 = graphics.loadMedia("C:/work/prog_projects/c++/space_invaders/Space_invaders/media/alien2.png");
+SDL_Texture* playerTexture = graphics.loadMedia("W:/programming_projects/c++/space_invaders/Space_invaders/media/player.png");
+SDL_Texture* bulletTexture = graphics.loadMedia("W:/programming_projects/c++/space_invaders/Space_invaders/media/bullet2.png");
+SDL_Texture* alienTexture1 = graphics.loadMedia("W:/programming_projects/c++/space_invaders/Space_invaders/media/alien1.png");
+SDL_Texture* alienTexture2 = graphics.loadMedia("W:/programming_projects/c++/space_invaders/Space_invaders/media/alien2.png");
 
 
 void Game::initializeAliens()
@@ -248,6 +261,8 @@ void Game::handleEvents(int randomNumber, int randomAlien1, int randomAlien2, in
 				bullets.back().bulletVelY = -bullets.back().bulletVelY;
 			}
 		}
+
+		
 	}
 
 }
@@ -269,7 +284,7 @@ void Game::update()
 				aliens1[j].alienCollisionBox.x = aliens1[j].alienXPos;
 				aliens1[j].alienCollisionBox.y = aliens1[j].alienYPos;
 				// Collision
-				if (checkCollison(aliens1[j].alienCollisionBox, bullets[i].bulletCollider))
+				if (checkCollison(aliens1[j].alienCollisionBox, bullets[i].bulletCollider) && bullets[i].bulletVelY != -bullets[i].BULLET_VEL)
 				{
 					aliens1[j].isDestroyed = true;
 					bullets[i].isDestroyed = true;
@@ -281,7 +296,7 @@ void Game::update()
 				aliens2[j].alienCollisionBox.x = aliens2[j].alienXPos;
 				aliens2[j].alienCollisionBox.y = aliens2[j].alienYPos;
 				// Collision
-				if (checkCollison(aliens2[j].alienCollisionBox, bullets[i].bulletCollider))
+				if (checkCollison(aliens2[j].alienCollisionBox, bullets[i].bulletCollider) && bullets[i].bulletVelY != -bullets[i].BULLET_VEL)
 				{
 					aliens2[j].isDestroyed = true;
 					bullets[i].isDestroyed = true;
@@ -293,7 +308,7 @@ void Game::update()
 				aliens3[j].alienCollisionBox.x = aliens3[j].alienXPos;
 				aliens3[j].alienCollisionBox.y = aliens3[j].alienYPos;
 				// Collision
-				if (checkCollison(aliens3[j].alienCollisionBox, bullets[i].bulletCollider))
+				if (checkCollison(aliens3[j].alienCollisionBox, bullets[i].bulletCollider) && bullets[i].bulletVelY != -bullets[i].BULLET_VEL)
 				{
 					aliens3[j].isDestroyed = true;
 					bullets[i].isDestroyed = true;
@@ -305,7 +320,7 @@ void Game::update()
 				aliens4[j].alienCollisionBox.x = aliens4[j].alienXPos;
 				aliens4[j].alienCollisionBox.y = aliens4[j].alienYPos;
 				// Collision
-				if (checkCollison(aliens4[j].alienCollisionBox, bullets[i].bulletCollider))
+				if (checkCollison(aliens4[j].alienCollisionBox, bullets[i].bulletCollider) && bullets[i].bulletVelY != -bullets[i].BULLET_VEL)
 				{
 					aliens4[j].isDestroyed = true;
 					bullets[i].isDestroyed = true;
@@ -317,7 +332,7 @@ void Game::update()
 				aliens5[j].alienCollisionBox.x = aliens5[j].alienXPos;
 				aliens5[j].alienCollisionBox.y = aliens5[j].alienYPos;
 				// Collision
-				if (checkCollison(aliens5[j].alienCollisionBox, bullets[i].bulletCollider))
+				if (checkCollison(aliens5[j].alienCollisionBox, bullets[i].bulletCollider) && bullets[i].bulletVelY != -bullets[i].BULLET_VEL)
 				{
 					aliens5[j].isDestroyed = true;
 					bullets[i].isDestroyed = true;
@@ -329,7 +344,7 @@ void Game::update()
 				aliens6[j].alienCollisionBox.x = aliens6[j].alienXPos;
 				aliens6[j].alienCollisionBox.y = aliens6[j].alienYPos;
 				// Collision
-				if (checkCollison(aliens6[j].alienCollisionBox, bullets[i].bulletCollider))
+				if (checkCollison(aliens6[j].alienCollisionBox, bullets[i].bulletCollider) && bullets[i].bulletVelY != -bullets[i].BULLET_VEL)
 				{
 					aliens6[j].isDestroyed = true;
 					bullets[i].isDestroyed = true;
@@ -341,7 +356,7 @@ void Game::update()
 				aliens7[j].alienCollisionBox.x = aliens1[j].alienXPos;
 				aliens7[j].alienCollisionBox.y = aliens1[j].alienYPos;
 				// Collision
-				if (checkCollison(aliens7[j].alienCollisionBox, bullets[i].bulletCollider))
+				if (checkCollison(aliens7[j].alienCollisionBox, bullets[i].bulletCollider) && bullets[i].bulletVelY != -bullets[i].BULLET_VEL)
 				{
 					aliens7[j].isDestroyed = true;
 					bullets[i].isDestroyed = true;
@@ -353,7 +368,7 @@ void Game::update()
 				aliens8[j].alienCollisionBox.x = aliens8[j].alienXPos;
 				aliens8[j].alienCollisionBox.y = aliens8[j].alienYPos;
 				// Collision
-				if (checkCollison(aliens8[j].alienCollisionBox, bullets[i].bulletCollider))
+				if (checkCollison(aliens8[j].alienCollisionBox, bullets[i].bulletCollider) && bullets[i].bulletVelY != -bullets[i].BULLET_VEL)
 				{
 					aliens8[j].isDestroyed = true;
 					bullets[i].isDestroyed = true;
@@ -389,6 +404,12 @@ void Game::update()
 	{
 		it->alienMove();
 
+		if ((SDL_GetTicks() - it->alienMoveTimeY) >= 5000)
+		{
+			it->alienMoveTimeY = SDL_GetTicks();
+			it->alienYPos += 10;
+		}
+
 		if (it->isDestroyed)
 		{
 			it = aliens1.erase(it);
@@ -403,6 +424,13 @@ void Game::update()
 	{
 		it->alienMove();
 
+
+		if ((SDL_GetTicks() - it->alienMoveTimeY) >= 5000)
+		{
+			it->alienMoveTimeY = SDL_GetTicks();
+			it->alienYPos += 10;
+		}
+
 		if (it->isDestroyed)
 		{
 			it = aliens2.erase(it);
@@ -416,6 +444,12 @@ void Game::update()
 	{
 		it->alienMove();
 
+		if ((SDL_GetTicks() - it->alienMoveTimeY) >= 5000)
+		{
+			it->alienMoveTimeY = SDL_GetTicks();
+			it->alienYPos += 10;
+		}
+
 		if (it->isDestroyed)
 		{
 			it = aliens3.erase(it);
@@ -428,6 +462,12 @@ void Game::update()
 	for (std::vector<Alien>::iterator it = aliens4.begin(); it != aliens4.end();)
 	{
 		it->alienMove();
+		
+		if ((SDL_GetTicks() - it->alienMoveTimeY) >= 5000)
+		{
+			it->alienMoveTimeY = SDL_GetTicks();
+			it->alienYPos += 10;
+		}
 
 		if (it->isDestroyed)
 		{
@@ -442,6 +482,12 @@ void Game::update()
 	{
 		it->alienMove();
 
+		if ((SDL_GetTicks() - it->alienMoveTimeY) >= 5000)
+		{
+			it->alienMoveTimeY = SDL_GetTicks();
+			it->alienYPos += 10;
+		}
+
 		if (it->isDestroyed)
 		{
 			it = aliens5.erase(it);
@@ -450,10 +496,17 @@ void Game::update()
 			++it;
 		}
 	}
+
 	//aliens6
 	for (std::vector<Alien>::iterator it = aliens6.begin(); it != aliens6.end();)
 	{
 		it->alienMove();
+
+		if ((SDL_GetTicks() - it->alienMoveTimeY) >= 5000)
+		{
+			it->alienMoveTimeY = SDL_GetTicks();
+			it->alienYPos += 10;
+		}
 
 		if (it->isDestroyed)
 		{
@@ -468,6 +521,12 @@ void Game::update()
 	{
 		it->alienMove();
 
+		if ((SDL_GetTicks() - it->alienMoveTimeY) >= 5000)
+		{
+			it->alienMoveTimeY = SDL_GetTicks();
+			it->alienYPos += 10;
+		}
+
 		if (it->isDestroyed)
 		{
 			it = aliens7.erase(it);
@@ -476,10 +535,17 @@ void Game::update()
 			++it;
 		}
 	}
+
 	//aliens8
 	for (std::vector<Alien>::iterator it = aliens8.begin(); it != aliens8.end();)
 	{
 		it->alienMove();
+
+		if ((SDL_GetTicks() - it->alienMoveTimeY) >= 5000)
+		{
+			it->alienMoveTimeY = SDL_GetTicks();
+			it->alienYPos += 10;
+		}
 
 		if (it->isDestroyed)
 		{
@@ -489,6 +555,7 @@ void Game::update()
 			++it;
 		}
 	}
+	
 }
 
 void Game::render()
@@ -500,6 +567,11 @@ void Game::render()
 	if (player.isDestroyed != true)
 	{
 		graphics.render(playerTexture, player.getXPos(), player.getYPos());
+	}
+	else
+	{
+		// Game over
+		graphics.render(Message, messageRect.x, messageRect.y);
 	}
 	
 	for (std::vector<Bullet>::iterator it = bullets.begin(); it != bullets.end(); ++it)
