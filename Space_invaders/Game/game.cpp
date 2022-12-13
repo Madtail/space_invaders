@@ -46,6 +46,8 @@ Game::Game()
 		std::cout << "Subsystems Initialized...\n";
 	}
 
+	victory = false;
+
 	highScore = 0;
 	highScoreMessageRect.x = 0;
 	highScoreMessageRect.y = 0;
@@ -142,7 +144,7 @@ void Game::handleEvents(int randomNumber, int randomAlien1, int randomAlien2, in
 	
 		player.handleEvent(event);
 
-		if ((SDL_GetTicks() - scoreTime >= 5000) && player.isDestroyed != true)
+		if ((SDL_GetTicks() - scoreTime >= 2000) && player.isDestroyed != true && victory != true)
 		{
 			scoreTime = SDL_GetTicks();
 			highScore++;
@@ -632,9 +634,10 @@ void Game::render()
 
 
 
-	if ((SDL_GetTicks() > 0) && ((aliens1.size() && aliens2.size() && aliens3.size() && aliens4.size() && aliens5.size() && aliens6.size() && aliens7.size() && aliens8.size()) == 0))
+	if ((SDL_GetTicks() > 0) && ((aliens1.size() + aliens2.size() + aliens3.size() + aliens4.size() + aliens5.size() + aliens6.size() + aliens7.size() + aliens8.size()) == 0))
 	{
 		graphics.render(victoryMessage, gameOverMessageRect.x, gameOverMessageRect.y);
+		victory = true;
 	}
 
 	highScoreString = std::to_string(highScore);

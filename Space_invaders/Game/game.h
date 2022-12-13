@@ -45,6 +45,8 @@ public:
 	SDL_Surface* surfaceVictoryMessage;
 	SDL_Texture* victoryMessage;
 
+	bool victory;
+
 	// Check collision between two objects
 	bool checkCollison(SDL_Rect a, SDL_Rect b);
 
