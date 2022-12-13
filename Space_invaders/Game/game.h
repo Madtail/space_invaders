@@ -7,6 +7,7 @@
 #include <ctime>
 #include <iostream>
 #include <SDL_ttf.h>
+#include <string>
 
 class Game
 {
@@ -31,11 +32,18 @@ public:
 
 	TTF_Font* font;
 	SDL_Color white;
-	SDL_Surface* surfaceMessage;
-	SDL_Texture* Message;
-	
-	SDL_Rect messageRect;
+	SDL_Surface* surfaceGameOverMessage;
+	SDL_Texture* gameOverMessage;
+	SDL_Rect gameOverMessageRect;
 
+	int highScore;
+	std::string highScoreString;
+	SDL_Surface* surfacehighScoreMessage;
+	SDL_Texture* highScoreMessage;
+	SDL_Rect highScoreMessageRect;
+
+	SDL_Surface* surfaceVictoryMessage;
+	SDL_Texture* victoryMessage;
 
 	// Check collision between two objects
 	bool checkCollison(SDL_Rect a, SDL_Rect b);

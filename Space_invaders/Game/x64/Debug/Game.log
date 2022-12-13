@@ -1,10 +1,10 @@
 ﻿  game.cpp
-W:\programming_projects\c++\space_invaders\Space_invaders\Game\game.cpp(139,37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-W:\programming_projects\c++\space_invaders\Space_invaders\Game\game.cpp(155,37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-W:\programming_projects\c++\space_invaders\Space_invaders\Game\game.cpp(171,37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-W:\programming_projects\c++\space_invaders\Space_invaders\Game\game.cpp(187,37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-W:\programming_projects\c++\space_invaders\Space_invaders\Game\game.cpp(203,37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-W:\programming_projects\c++\space_invaders\Space_invaders\Game\game.cpp(219,37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-W:\programming_projects\c++\space_invaders\Space_invaders\Game\game.cpp(235,37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-W:\programming_projects\c++\space_invaders\Space_invaders\Game\game.cpp(251,37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-  Game.vcxproj -> W:\programming_projects\c++\space_invaders\Space_invaders\x64\Debug\Game.exe
+C:\programming\c++\space_invaders2\Space_invaders\Game\game.cpp(153,37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\programming\c++\space_invaders2\Space_invaders\Game\game.cpp(169,37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\programming\c++\space_invaders2\Space_invaders\Game\game.cpp(185,37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\programming\c++\space_invaders2\Space_invaders\Game\game.cpp(201,37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\programming\c++\space_invaders2\Space_invaders\Game\game.cpp(217,37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\programming\c++\space_invaders2\Space_invaders\Game\game.cpp(233,37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\programming\c++\space_invaders2\Space_invaders\Game\game.cpp(249,37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\programming\c++\space_invaders2\Space_invaders\Game\game.cpp(265,37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+  Game.vcxproj -> C:\programming\c++\space_invaders2\Space_invaders\x64\Debug\Game.exe

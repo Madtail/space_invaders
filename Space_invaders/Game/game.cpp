@@ -28,7 +28,7 @@ Uint32 tempAlienTime = -1000;
 
 Uint32 bulletStartTime = -1000;
 
-
+Uint32 scoreTime = -1000;
 
 SDL_Event Game::event;
 
@@ -41,26 +41,34 @@ Game::Game()
 {
 	_running = true;
 
-	if (SDL_Init(SDL_INIT_EVERYTHING) == 0)
+	if (SDL_Init(SDL_INIT_EVERYTHING && TTF_Init()) == 0)
 	{
 		std::cout << "Subsystems Initialized...\n";
 	}
 
-	messageRect.x = 400;
-	messageRect.y = 300;
-	messageRect.w = 400;
-	messageRect.h = 400;
-	font = TTF_OpenFont("verdana.ttf", 24);
+	highScore = 0;
+	highScoreMessageRect.x = 0;
+	highScoreMessageRect.y = 0;
+	highScoreMessageRect.w = 200;
+	highScoreMessageRect.h = 200;
 
-	surfaceMessage = TTF_RenderText_Solid(font, "GAME OVER", white);
+	gameOverMessageRect.x = 220;
+	gameOverMessageRect.y = 200;
+	gameOverMessageRect.w = 400;
+	gameOverMessageRect.h = 400;
+	font = TTF_OpenFont("C64_Pro-STYLE.ttf", 50);
 	white = { 255,255,255 };
-	Message = SDL_CreateTextureFromSurface(graphics.getRenderer(), surfaceMessage);
+	surfaceGameOverMessage = TTF_RenderUTF8_Blended(font, "GAME OVER", white);
+	gameOverMessage = SDL_CreateTextureFromSurface(graphics.getRenderer(), surfaceGameOverMessage);
+
+	surfaceVictoryMessage = TTF_RenderUTF8_Blended(font, "VICTORY", white);
+	victoryMessage = SDL_CreateTextureFromSurface(graphics.getRenderer(), surfaceVictoryMessage);
 }
 
-SDL_Texture* playerTexture = graphics.loadMedia("W:/programming_projects/c++/space_invaders/Space_invaders/media/player.png");
-SDL_Texture* bulletTexture = graphics.loadMedia("W:/programming_projects/c++/space_invaders/Space_invaders/media/bullet2.png");
-SDL_Texture* alienTexture1 = graphics.loadMedia("W:/programming_projects/c++/space_invaders/Space_invaders/media/alien1.png");
-SDL_Texture* alienTexture2 = graphics.loadMedia("W:/programming_projects/c++/space_invaders/Space_invaders/media/alien2.png");
+SDL_Texture* playerTexture = graphics.loadMedia("C:/programming/c++/space_invaders2/Space_invaders/media/player.png");
+SDL_Texture* bulletTexture = graphics.loadMedia("C:/programming/c++/space_invaders2/Space_invaders/media/bullet2.png");
+SDL_Texture* alienTexture1 = graphics.loadMedia("C:/programming/c++/space_invaders2/Space_invaders/media/alien1.png");
+SDL_Texture* alienTexture2 = graphics.loadMedia("C:/programming/c++/space_invaders2/Space_invaders/media/alien2.png");
 
 
 void Game::initializeAliens()
@@ -121,7 +129,7 @@ void Game::handleEvents(int randomNumber, int randomAlien1, int randomAlien2, in
 			switch (event.key.keysym.sym)
 			{
 			case SDLK_z:
-				if ((SDL_GetTicks() - bulletStartTime) >= 450 && player.isDestroyed != true) {
+				if ((SDL_GetTicks() - bulletStartTime) >= 500 && player.isDestroyed != true) {
 					bulletStartTime = SDL_GetTicks();
 					bullets.push_back(Bullet());
 					bullets.back().bulletXpos = player.getXPos() + 8;
@@ -133,6 +141,12 @@ void Game::handleEvents(int randomNumber, int randomAlien1, int randomAlien2, in
 		}
 	
 		player.handleEvent(event);
+
+		if ((SDL_GetTicks() - scoreTime >= 5000) && player.isDestroyed != true)
+		{
+			scoreTime = SDL_GetTicks();
+			highScore++;
+		}
 
 		if (randomAlien1 >= aliens1.size())
 		{
@@ -273,118 +287,162 @@ void Game::update()
 
 	// Update player position
 	player.move();
-	
-	// Check collisions between aliens1 and bullets
-		for (int i = 0; i < bullets.size(); i++)
-		{
-			bullets[i].bulletCollider.x = bullets[i].bulletXpos;
-			bullets[i].bulletCollider.y = bullets[i].bulletYpos;
-			for (int j = 0; j < aliens1.size(); j++)
-			{
-				aliens1[j].alienCollisionBox.x = aliens1[j].alienXPos;
-				aliens1[j].alienCollisionBox.y = aliens1[j].alienYPos;
-				// Collision
-				if (checkCollison(aliens1[j].alienCollisionBox, bullets[i].bulletCollider) && bullets[i].bulletVelY != -bullets[i].BULLET_VEL)
-				{
-					aliens1[j].isDestroyed = true;
-					bullets[i].isDestroyed = true;
-				}
-			}
-			//aliens2
-			for (int j = 0; j < aliens2.size(); j++)
-			{
-				aliens2[j].alienCollisionBox.x = aliens2[j].alienXPos;
-				aliens2[j].alienCollisionBox.y = aliens2[j].alienYPos;
-				// Collision
-				if (checkCollison(aliens2[j].alienCollisionBox, bullets[i].bulletCollider) && bullets[i].bulletVelY != -bullets[i].BULLET_VEL)
-				{
-					aliens2[j].isDestroyed = true;
-					bullets[i].isDestroyed = true;
-				}
-			}
-			//aliens3
-			for (int j = 0; j < aliens3.size(); j++)
-			{
-				aliens3[j].alienCollisionBox.x = aliens3[j].alienXPos;
-				aliens3[j].alienCollisionBox.y = aliens3[j].alienYPos;
-				// Collision
-				if (checkCollison(aliens3[j].alienCollisionBox, bullets[i].bulletCollider) && bullets[i].bulletVelY != -bullets[i].BULLET_VEL)
-				{
-					aliens3[j].isDestroyed = true;
-					bullets[i].isDestroyed = true;
-				}
-			}
-			//aliens4
-			for (int j = 0; j < aliens4.size(); j++)
-			{
-				aliens4[j].alienCollisionBox.x = aliens4[j].alienXPos;
-				aliens4[j].alienCollisionBox.y = aliens4[j].alienYPos;
-				// Collision
-				if (checkCollison(aliens4[j].alienCollisionBox, bullets[i].bulletCollider) && bullets[i].bulletVelY != -bullets[i].BULLET_VEL)
-				{
-					aliens4[j].isDestroyed = true;
-					bullets[i].isDestroyed = true;
-				}
-			}
-			//aliens5
-			for (int j = 0; j < aliens5.size(); j++)
-			{
-				aliens5[j].alienCollisionBox.x = aliens5[j].alienXPos;
-				aliens5[j].alienCollisionBox.y = aliens5[j].alienYPos;
-				// Collision
-				if (checkCollison(aliens5[j].alienCollisionBox, bullets[i].bulletCollider) && bullets[i].bulletVelY != -bullets[i].BULLET_VEL)
-				{
-					aliens5[j].isDestroyed = true;
-					bullets[i].isDestroyed = true;
-				}
-			}
-			//aliens6
-			for (int j = 0; j < aliens6.size(); j++)
-			{
-				aliens6[j].alienCollisionBox.x = aliens6[j].alienXPos;
-				aliens6[j].alienCollisionBox.y = aliens6[j].alienYPos;
-				// Collision
-				if (checkCollison(aliens6[j].alienCollisionBox, bullets[i].bulletCollider) && bullets[i].bulletVelY != -bullets[i].BULLET_VEL)
-				{
-					aliens6[j].isDestroyed = true;
-					bullets[i].isDestroyed = true;
-				}
-			}
-			//aliens7
-			for (int j = 0; j < aliens7.size(); j++)
-			{
-				aliens7[j].alienCollisionBox.x = aliens1[j].alienXPos;
-				aliens7[j].alienCollisionBox.y = aliens1[j].alienYPos;
-				// Collision
-				if (checkCollison(aliens7[j].alienCollisionBox, bullets[i].bulletCollider) && bullets[i].bulletVelY != -bullets[i].BULLET_VEL)
-				{
-					aliens7[j].isDestroyed = true;
-					bullets[i].isDestroyed = true;
-				}
-			}
-			//aliens8
-			for (int j = 0; j < aliens8.size(); j++)
-			{
-				aliens8[j].alienCollisionBox.x = aliens8[j].alienXPos;
-				aliens8[j].alienCollisionBox.y = aliens8[j].alienYPos;
-				// Collision
-				if (checkCollison(aliens8[j].alienCollisionBox, bullets[i].bulletCollider) && bullets[i].bulletVelY != -bullets[i].BULLET_VEL)
-				{
-					aliens8[j].isDestroyed = true;
-					bullets[i].isDestroyed = true;
-				}
-			}
 
-			//Player collision with bullet
-			player.playerCollider.x = player.getXPos();
-			player.playerCollider.y = player.getYPos();
-			if (checkCollison(player.playerCollider, bullets[i].bulletCollider))
+	// Check collisions between aliens1 and bullets
+	for (int i = 0; i < bullets.size(); i++)
+	{
+		bullets[i].bulletCollider.x = bullets[i].bulletXpos;
+		bullets[i].bulletCollider.y = bullets[i].bulletYpos;
+		for (int j = 0; j < aliens1.size(); j++)
+		{
+			aliens1[j].alienCollisionBox.x = aliens1[j].alienXPos;
+			aliens1[j].alienCollisionBox.y = aliens1[j].alienYPos;
+			// Collision
+			if (checkCollison(aliens1[j].alienCollisionBox, bullets[i].bulletCollider) && bullets[i].bulletVelY != -bullets[i].BULLET_VEL)
 			{
+				aliens1[j].isDestroyed = true;
 				bullets[i].isDestroyed = true;
+			}
+			if (checkCollison(aliens1[j].alienCollisionBox, player.playerCollider))
+			{
+				aliens1[j].isDestroyed = true;
 				player.isDestroyed = true;
 			}
-
 		}
+		//aliens2
+		for (int j = 0; j < aliens2.size(); j++)
+		{
+			aliens2[j].alienCollisionBox.x = aliens2[j].alienXPos;
+			aliens2[j].alienCollisionBox.y = aliens2[j].alienYPos;
+			// Collision
+			if (checkCollison(aliens2[j].alienCollisionBox, bullets[i].bulletCollider) && bullets[i].bulletVelY != -bullets[i].BULLET_VEL)
+			{
+				aliens2[j].isDestroyed = true;
+				bullets[i].isDestroyed = true;
+			}
+			if (checkCollison(aliens2[j].alienCollisionBox, player.playerCollider))
+			{
+				aliens2[j].isDestroyed = true;
+				player.isDestroyed = true;
+			}
+		}
+
+		//aliens3
+		for (int j = 0; j < aliens3.size(); j++)
+		{
+			aliens3[j].alienCollisionBox.x = aliens3[j].alienXPos;
+			aliens3[j].alienCollisionBox.y = aliens3[j].alienYPos;
+			// Collision
+			if (checkCollison(aliens3[j].alienCollisionBox, bullets[i].bulletCollider) && bullets[i].bulletVelY != -bullets[i].BULLET_VEL)
+			{
+				aliens3[j].isDestroyed = true;
+				bullets[i].isDestroyed = true;
+			}
+			if (checkCollison(aliens3[j].alienCollisionBox, player.playerCollider))
+			{
+				aliens3[j].isDestroyed = true;
+				player.isDestroyed = true;
+			}
+		}
+
+
+		//aliens4
+		for (int j = 0; j < aliens4.size(); j++)
+		{
+			aliens4[j].alienCollisionBox.x = aliens4[j].alienXPos;
+			aliens4[j].alienCollisionBox.y = aliens4[j].alienYPos;
+			// Collision
+			if (checkCollison(aliens4[j].alienCollisionBox, bullets[i].bulletCollider) && bullets[i].bulletVelY != -bullets[i].BULLET_VEL)
+			{
+				aliens4[j].isDestroyed = true;
+				bullets[i].isDestroyed = true;
+			}
+			if (checkCollison(aliens4[j].alienCollisionBox, player.playerCollider))
+			{
+				aliens4[j].isDestroyed = true;
+				player.isDestroyed = true;
+			}
+		}
+		//aliens5
+		for (int j = 0; j < aliens5.size(); j++)
+		{
+			aliens5[j].alienCollisionBox.x = aliens5[j].alienXPos;
+			aliens5[j].alienCollisionBox.y = aliens5[j].alienYPos;
+			// Collision
+			if (checkCollison(aliens5[j].alienCollisionBox, bullets[i].bulletCollider) && bullets[i].bulletVelY != -bullets[i].BULLET_VEL)
+			{
+				aliens5[j].isDestroyed = true;
+				bullets[i].isDestroyed = true;
+			}
+			if (checkCollison(aliens5[j].alienCollisionBox, player.playerCollider))
+			{
+				aliens5[j].isDestroyed = true;
+				player.isDestroyed = true;
+			}
+		}
+		//aliens6
+		for (int j = 0; j < aliens6.size(); j++)
+		{
+			aliens6[j].alienCollisionBox.x = aliens6[j].alienXPos;
+			aliens6[j].alienCollisionBox.y = aliens6[j].alienYPos;
+			// Collision
+			if (checkCollison(aliens6[j].alienCollisionBox, bullets[i].bulletCollider) && bullets[i].bulletVelY != -bullets[i].BULLET_VEL)
+			{
+				aliens6[j].isDestroyed = true;
+				bullets[i].isDestroyed = true;
+			}
+			if (checkCollison(aliens6[j].alienCollisionBox, player.playerCollider))
+			{
+				aliens6[j].isDestroyed = true;
+				player.isDestroyed = true;
+			}
+		}
+		//aliens7
+		for (int j = 0; j < aliens7.size(); j++)
+		{
+			aliens7[j].alienCollisionBox.x = aliens7[j].alienXPos;
+			aliens7[j].alienCollisionBox.y = aliens7[j].alienYPos;
+			// Collision
+			if (checkCollison(aliens7[j].alienCollisionBox, bullets[i].bulletCollider) && bullets[i].bulletVelY != -bullets[i].BULLET_VEL)
+			{
+				aliens7[j].isDestroyed = true;
+				bullets[i].isDestroyed = true;
+			}
+			if (checkCollison(aliens7[j].alienCollisionBox, player.playerCollider))
+			{
+				aliens7[j].isDestroyed = true;
+				player.isDestroyed = true;
+			}
+		}
+		//aliens8
+		for (int j = 0; j < aliens8.size(); j++)
+		{
+			aliens8[j].alienCollisionBox.x = aliens8[j].alienXPos;
+			aliens8[j].alienCollisionBox.y = aliens8[j].alienYPos;
+			// Collision
+			if (checkCollison(aliens8[j].alienCollisionBox, bullets[i].bulletCollider) && bullets[i].bulletVelY != -bullets[i].BULLET_VEL)
+			{
+				aliens8[j].isDestroyed = true;
+				bullets[i].isDestroyed = true;
+			}
+			if (checkCollison(aliens8[j].alienCollisionBox, player.playerCollider))
+			{
+				aliens8[j].isDestroyed = true;
+				player.isDestroyed = true;
+			}
+		}
+
+		//Player collision with bullet
+		player.playerCollider.x = player.getXPos();
+		player.playerCollider.y = player.getYPos();
+		if (checkCollison(player.playerCollider, bullets[i].bulletCollider))
+		{
+			bullets[i].isDestroyed = true;
+			player.isDestroyed = true;
+		}
+
+	}
+
 
 	// Update bullet position and delete
 	for (std::vector<Bullet>::iterator it = bullets.begin(); it != bullets.end();)
@@ -423,7 +481,6 @@ void Game::update()
 	for (std::vector<Alien>::iterator it = aliens2.begin(); it != aliens2.end();)
 	{
 		it->alienMove();
-
 
 		if ((SDL_GetTicks() - it->alienMoveTimeY) >= 5000)
 		{
@@ -555,7 +612,6 @@ void Game::update()
 			++it;
 		}
 	}
-	
 }
 
 void Game::render()
@@ -571,9 +627,22 @@ void Game::render()
 	else
 	{
 		// Game over
-		graphics.render(Message, messageRect.x, messageRect.y);
+		graphics.render(gameOverMessage, gameOverMessageRect.x, gameOverMessageRect.y);
 	}
-	
+
+
+
+	if ((SDL_GetTicks() > 0) && ((aliens1.size() && aliens2.size() && aliens3.size() && aliens4.size() && aliens5.size() && aliens6.size() && aliens7.size() && aliens8.size()) == 0))
+	{
+		graphics.render(victoryMessage, gameOverMessageRect.x, gameOverMessageRect.y);
+	}
+
+	highScoreString = std::to_string(highScore);
+	char const* pchar = highScoreString.c_str();
+	surfacehighScoreMessage = TTF_RenderUTF8_Blended(font, pchar, white);
+	highScoreMessage = SDL_CreateTextureFromSurface(graphics.getRenderer(), surfacehighScoreMessage);
+	graphics.render(highScoreMessage, highScoreMessageRect.x, highScoreMessageRect.y);
+
 	for (std::vector<Bullet>::iterator it = bullets.begin(); it != bullets.end(); ++it)
 	{
 		graphics.render(bulletTexture, it->bulletXpos, it->bulletYpos);
