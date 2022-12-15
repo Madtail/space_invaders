@@ -67,10 +67,10 @@ Game::Game()
 	victoryMessage = SDL_CreateTextureFromSurface(graphics.getRenderer(), surfaceVictoryMessage);
 }
 
-SDL_Texture* playerTexture = graphics.loadMedia("C:/work/prog_projects/c++/space_invaders/Space_invaders/media/player.png");
-SDL_Texture* bulletTexture = graphics.loadMedia("C:/work/prog_projects/c++/space_invaders/Space_invaders/media/bullet2.png");
-SDL_Texture* alienTexture1 = graphics.loadMedia("C:/work/prog_projects/c++/space_invaders/Space_invaders/media/alien1.png");
-SDL_Texture* alienTexture2 = graphics.loadMedia("C:/work/prog_projects/c++/space_invaders/Space_invaders/media/alien2.png");
+SDL_Texture* playerTexture = graphics.loadMedia("../media/player.png");
+SDL_Texture* bulletTexture = graphics.loadMedia("../media/bullet2.png");
+SDL_Texture* alienTexture1 = graphics.loadMedia("../media/alien1.png");
+SDL_Texture* alienTexture2 = graphics.loadMedia("../media/alien2.png");
 
 
 void Game::initializeAliens()
